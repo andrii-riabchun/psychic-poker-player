@@ -4,7 +4,7 @@ open System
 open Xunit
 
 open Cards
-open Parsing
+open Convertion
 open Advising
 
 [<Fact>]
@@ -24,7 +24,7 @@ let ``Should parse valid string`` () =
         (Value.Two,     Spades)
         (Value.Six,     Spades)
         |]
-    let (hand, deck) = parse "TH JH QC QD QS QH KH AH 2S 6S"
+    let (hand, deck) = Parse.input "TH JH QC QD QS QH KH AH 2S 6S"
     Assert.Equal<Hand>(expectedHand, hand)
     Assert.Equal<Deck>(expectedDeck |> List.ofArray, deck)
 
@@ -36,20 +36,9 @@ let ``Should parse valid string`` () =
 [<InlineData("TN JH QC QD QS QH KH AH 2S 6S ??")>]  // num of provided cards > 10
 [<InlineData("TN JH QC QD QS QH KH AH 2S")>]        // num of provided cards < 10
 let ``Should fail on parsing invalid strings``(input:string) : unit =
-    (fun () -> parse input |> ignore)
+    (fun () -> Parse.input input |> ignore)
     |> Assert.Throws<Exception> 
     |> ignore
-
-[<Fact>]
-let ``Should generate all discard combinations`` () =
-    let hand = [| 
-        (Value.Ten,     Hearts)
-        (Value.Jack,    Hearts)
-        (Value.Queen,   Clubs)
-        (Value.Queen,   Diamonds)
-        (Value.Queen,   Spades) 
-        |] 
-    Assert.Equal(pown 2 (hand |> Seq.length), possibleDiscardResults hand |> Seq.length)
 
 
 [<Theory>]
@@ -63,5 +52,5 @@ let ``Should generate all discard combinations`` () =
 [<InlineData("6C 9C 8C 2D 7C 2H TC 4C 9S AH", Rank.Pair)>]
 [<InlineData("3D 5S 2H QD TD 6S KH 9H AD QH", Rank.HighCard)>]
 let ``Should calculate best discard result properly`` (input:string) (expected:Rank) : unit =
-    let got = input |> parse ||> bestRank
+    let got = input |> Parse.input ||> bestRank
     Assert.Equal(expected, snd got)

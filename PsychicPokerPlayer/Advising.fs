@@ -1,41 +1,33 @@
 module Advising
 open Cards
+open Utils
 
-let private swap oldElem newElem arr =
-    arr 
-    |> Array.map (fun v -> if v=oldElem then newElem else v) 
-
-type private Combination<'a> = 'a list
-
-let rec comb n l =
-    match (n,l) with
-    | (0,_) -> [[]]
-    | (_,[]) -> []
-    | (n,x::xs) ->
-        let useX = List.map (fun l -> x::l) (comb (n-1) xs)
-        let noX = comb n xs
-        useX @ noX
-
-let possibleDiscardResults (hand:Hand) = [ for i in 0..5 do yield! comb i (List.ofArray hand) ]
-
-let discard deck hand (card:Card) : (Deck * Hand) =
-    match deck with
+let discard deck hand card : (Deck * Hand) =
+    match deck |> List.ofSeq with
     | [] -> failwith "cannot discard any more"
     | newCard::remainingDeck -> 
-        let newHand = hand |> swap card newCard
-        (remainingDeck, newHand)
+        let newHand = hand |> Seq.findAndSwap card newCard
+        (remainingDeck |> Seq.ofList, newHand)
 
-let rec discardAll (deck:Deck) (hand: Hand) (cards: Card list) : Hand =
-    match cards with
+let rec discardAll deck hand cards =
+    match cards |> List.ofSeq with
     | [] -> hand
     | h::t -> 
-        let (newDeck, newHand) = discard deck hand h
-        discardAll newDeck newHand t
+        let (deck, hand) = discard deck hand h
+        discardAll deck hand t
+
+let getAllPossibleHands deck hand = 
+    Seq.allCombinations hand
+    |> Seq.map (fun cards -> cards |> List.ofSeq |> discardAll deck hand)
+
+let calculateRanks =
+    Seq.map (
+        (fun hand -> Seq.sortBy fst hand) >> // sort by card value
+        (fun hand -> (hand, Hand.score hand))   // return hand with its score
+        )
 
 let bestRank (hand:Hand) deck  =
     hand
-    |> possibleDiscardResults
-    |> Seq.map (fun cards -> discardAll deck hand cards)
-    |> Seq.map (fun hand -> Array.sortBy fst hand)
-    |> Seq.map (fun hand -> (hand, scoreHand hand))
+    |> getAllPossibleHands deck
+    |> calculateRanks
     |> Seq.maxBy snd

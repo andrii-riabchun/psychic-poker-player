@@ -23,9 +23,9 @@ type Suit =
 
 type Card = Value * Suit
 
-type Hand = Card array
+type Hand = Card seq
 
-type Deck = Card list
+type Deck = Card seq
 
 type Rank =
 | HighCard      = 1
@@ -38,44 +38,47 @@ type Rank =
 | FourOfKind    = 8
 | StraightFlush = 9
 | RoyalFlush    = 10
-
-let isFlush (hand:Hand) = 
-    hand
-    |> Seq.pairwise
-    |> Seq.map (fun ((_, suit1), (_,suit2)) -> (suit1, suit2))
-    |> Seq.forall (fun (suit1, suit2) -> suit1 = suit2)
-
-
-let isStraight (cards : Hand) =
-    match cards |> Array.map (fst>>int) |> List.ofArray with
-    | [2;3;4;5;14] -> true // baby straigh
-    | _-> cards 
-          |> Seq.pairwise
-          |> Seq.map (fun ((val1, _), (val2, _)) -> (val1, val2))
-          |> Seq.forall (fun (val1, val2) -> int val2 = int val1 + 1)
+ 
+module Hand = 
+    let isFlush hand = 
+        hand
+        |> Seq.pairwise
+        |> Seq.map (fun ((_, suit1), (_,suit2)) -> (suit1, suit2))
+        |> Seq.forall (fun (suit1, suit2) -> suit1 = suit2)
 
 
-let getValueCounts (hand : Hand) = 
-    hand
-    |> Seq.countBy (fun (value, _) -> value)
-    |> Seq.map (fun (_, count) -> count)
-    |> Seq.toList
-    |> List.sort
-    |> List.rev
+    let isStraight hand =
+        match hand |> Seq.map (fst>>int) |> List.ofSeq with
+        | [2;3;4;5;14] -> true // baby straigh
+        | _-> hand 
+              |> Seq.pairwise
+              |> Seq.map (fun ((val1, _), (val2, _)) -> (val1, val2))
+              |> Seq.forall (fun (val1, val2) -> int val2 = int val1 + 1)
 
-let scoreHand (hand:Hand) =
-    match (isStraight hand, isFlush hand) with
-    | (true, true) -> 
-        if hand |> Array.last |> fst = Value.Ace 
-        then Rank.RoyalFlush
-        else Rank.StraightFlush
-    | (false, true) -> Rank.Flush
-    | (true, false) -> Rank.Straight
-    | (false, false) -> 
-        match getValueCounts hand with
-        | [4;1]     -> Rank.FourOfKind
-        | [3;2]     -> Rank.FullHouse
-        | [3;1;1]   -> Rank.ThreeOfKind
-        | [2;2;1]   -> Rank.TwoPair
-        | [2;1;1;1] -> Rank.Pair
-        | _         -> Rank.HighCard
+
+    let getValueCounts hand = 
+        hand
+        |> Seq.countBy (fun (value, _) -> value)
+        |> Seq.map (fun (_, count) -> count)
+        |> Seq.toList
+        |> List.sort
+        |> List.rev
+
+    let highestCardIs value hand = hand |> Seq.last |> fst = value
+
+    let score hand =
+        match (isStraight hand, isFlush hand) with
+        | (true, true) -> 
+            if hand |> highestCardIs Value.Ace 
+            then Rank.RoyalFlush
+            else Rank.StraightFlush
+        | (false, true) -> Rank.Flush
+        | (true, false) -> Rank.Straight
+        | (false, false) -> 
+            match getValueCounts hand with
+            | [4;1]     -> Rank.FourOfKind
+            | [3;2]     -> Rank.FullHouse
+            | [3;1;1]   -> Rank.ThreeOfKind
+            | [2;2;1]   -> Rank.TwoPair
+            | [2;1;1;1] -> Rank.Pair
+            | _         -> Rank.HighCard
