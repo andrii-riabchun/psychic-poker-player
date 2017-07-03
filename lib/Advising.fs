@@ -26,8 +26,13 @@ let calculateRanks =
         (fun hand -> (hand, Hand.score hand))   // return hand with its score
         )
 
+let getCardsToDiscard initial (final, rank) = (Seq.except final initial, rank)
+
+let takeBestRank = Seq.maxBy snd
+
 let bestRank hand deck =
     hand
     |> getAllPossibleHands deck
     |> calculateRanks
-    |> Seq.maxBy snd
+    |> takeBestRank
+    |> getCardsToDiscard hand

@@ -25,10 +25,9 @@ let lines =
     |> Seq.takeWhile(String.IsNullOrWhiteSpace >> not)
 
 let printResult (hand, deck) = 
-    let (newHand, rank) = bestRank hand deck
-    let discarded = Seq.except newHand hand
+    let (toDiscard, rank) = bestRank hand deck
     let discardMessage = 
-        match discarded |> List.ofSeq with
+        match toDiscard |> List.ofSeq with
         | []    -> sprintf "You already got %A" rank
         | cards -> sprintf "Discard %s to get %A" (string cards) rank
     printfn "%s | %s | %s" (string hand) (string deck) discardMessage
