@@ -31,7 +31,7 @@ let printResult (hand, deck) =
         match discarded |> List.ofSeq with
         | []    -> sprintf "You already got %A" rank
         | cards -> sprintf "Discard %s to get %A" (string cards) rank
-    printfn "Hand: %s | Deck: %s | %s" (string hand) (string deck) discardMessage
+    printfn "%s | %s | %s" (string hand) (string deck) discardMessage
 
 [<EntryPoint>]
 let main argv =
