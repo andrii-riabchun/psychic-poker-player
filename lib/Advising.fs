@@ -26,7 +26,7 @@ let calculateRanks =
         (fun hand -> (hand, Hand.score hand))   // return hand with its score
         )
 
-let bestRank (hand:Hand) deck  =
+let bestRank hand deck =
     hand
     |> getAllPossibleHands deck
     |> calculateRanks

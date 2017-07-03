@@ -1,5 +1,6 @@
 open System
 open Cards
+open Advising
 
 let parse (input: string) : (Hand * Deck) =
     let cards = input.Split(' ') |> Array.map Card.parse
@@ -12,9 +13,27 @@ let parse (input: string) : (Hand * Deck) =
 
 let tryParse input =
     try input |> parse |> Some
-    with ex -> None
+    with ex -> 
+        printf "%s" ex.Message 
+        None
+
+let string cards =
+    cards |> Seq.map Card.string |> String.concat " "
+
+let lines = 
+    Seq.initInfinite (fun _ -> System.Console.In.ReadLine())
+    |> Seq.takeWhile(String.IsNullOrWhiteSpace >> not)
+
+let printResult (hand, deck) = 
+    let (newHand, rank) = bestRank hand deck
+    let discarded = Seq.except newHand hand
+    let discardMessage = 
+        match discarded |> List.ofSeq with
+        | []    -> sprintf "You already got %A" rank
+        | cards -> sprintf "Discard %s to get %A" (string cards) rank
+    printfn "Hand: %s | Deck: %s | %s" (string hand) (string deck) discardMessage
 
 [<EntryPoint>]
 let main argv =
-    printfn "Hello World from F#!"
-    0 // return an integer exit code
+    lines |> Seq.iter (parse >> printResult) 
+    0

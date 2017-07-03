@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer", "src\PsychicPokerPlayer.fsproj", "{1E8AE785-D9C2-498E-A6B9-54166E80676D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer", "lib\PsychicPokerPlayer.fsproj", "{1E8AE785-D9C2-498E-A6B9-54166E80676D}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer.Tests", "tests\PsychicPokerPlayer.Tests.fsproj", "{54A6805C-3C2B-4BEA-98D2-925B54342D58}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer.App", "src\PsychicPokerPlayer.App.fsproj", "{BFDB947C-C6FA-435F-829C-0F47CECD498B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,5 +46,17 @@ Global
 		{54A6805C-3C2B-4BEA-98D2-925B54342D58}.Release|x64.Build.0 = Release|x64
 		{54A6805C-3C2B-4BEA-98D2-925B54342D58}.Release|x86.ActiveCfg = Release|x86
 		{54A6805C-3C2B-4BEA-98D2-925B54342D58}.Release|x86.Build.0 = Release|x86
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Debug|x64.ActiveCfg = Debug|x64
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Debug|x64.Build.0 = Debug|x64
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Debug|x86.ActiveCfg = Debug|x86
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Debug|x86.Build.0 = Debug|x86
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Release|x64.ActiveCfg = Release|x64
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Release|x64.Build.0 = Release|x64
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Release|x86.ActiveCfg = Release|x86
+		{BFDB947C-C6FA-435F-829C-0F47CECD498B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal

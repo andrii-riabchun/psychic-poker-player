@@ -52,6 +52,7 @@ module Value =
         | Value.Queen   -> "Q"
         | Value.King    -> "K"
         | Value.Ace     -> "A"
+        | _             -> failwith "illegal value"
 
 type Suit =
     | Diamonds
@@ -100,16 +101,16 @@ type Hand = Card seq
 type Deck = Card seq
 
 type Rank =
-| HighCard      = 1
-| Pair          = 2
-| TwoPair       = 3
-| ThreeOfKind   = 4
-| Straight      = 5
-| Flush         = 6
-| FullHouse     = 7
-| FourOfKind    = 8
-| StraightFlush = 9
-| RoyalFlush    = 10
+    | HighCard      = 1
+    | Pair          = 2
+    | TwoPair       = 3
+    | ThreeOfKind   = 4
+    | Straight      = 5
+    | Flush         = 6
+    | FullHouse     = 7
+    | FourOfKind    = 8
+    | StraightFlush = 9
+    | RoyalFlush    = 10
  
 module Hand = 
     let isFlush hand = 

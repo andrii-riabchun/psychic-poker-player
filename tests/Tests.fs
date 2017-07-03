@@ -5,7 +5,15 @@ open Xunit
 
 open Cards
 open Advising
-open Program
+
+let parse (input: string) : (Hand * Deck) =
+    let cards = input.Split(' ') |> Array.map Card.parse
+    match cards |> Seq.length with
+    | 10 -> 
+        let hand = Array.sub cards 0 5 |> Seq.ofArray
+        let deck = Array.sub cards 5 5 |> Seq.ofArray
+        (hand, deck)
+    | _ -> failwith "invalid input format"
 
 [<Fact>]
 let ``Should parse valid string`` () =
@@ -54,3 +62,5 @@ let ``Should fail on parsing invalid strings``(input:string) : unit =
 let ``Should calculate best discard result properly`` (input:string) (expected:Rank) : unit =
     let got = input |> parse ||> bestRank
     Assert.Equal(expected, snd got)
+
+do()
