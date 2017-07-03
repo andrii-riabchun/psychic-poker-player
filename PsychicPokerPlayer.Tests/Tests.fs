@@ -4,8 +4,8 @@ open System
 open Xunit
 
 open Cards
-open Convertion
 open Advising
+open Program
 
 [<Fact>]
 let ``Should parse valid string`` () =
@@ -24,7 +24,7 @@ let ``Should parse valid string`` () =
         (Value.Two,     Spades)
         (Value.Six,     Spades)
         |]
-    let (hand, deck) = Parse.input "TH JH QC QD QS QH KH AH 2S 6S"
+    let (hand, deck) = parse "TH JH QC QD QS QH KH AH 2S 6S"
     Assert.Equal<Hand>(expectedHand, hand)
     Assert.Equal<Deck>(expectedDeck |> List.ofArray, deck)
 
@@ -36,7 +36,7 @@ let ``Should parse valid string`` () =
 [<InlineData("TN JH QC QD QS QH KH AH 2S 6S ??")>]  // num of provided cards > 10
 [<InlineData("TN JH QC QD QS QH KH AH 2S")>]        // num of provided cards < 10
 let ``Should fail on parsing invalid strings``(input:string) : unit =
-    (fun () -> Parse.input input |> ignore)
+    (fun () -> input |> parse |> ignore)
     |> Assert.Throws<Exception> 
     |> ignore
 
@@ -52,5 +52,5 @@ let ``Should fail on parsing invalid strings``(input:string) : unit =
 [<InlineData("6C 9C 8C 2D 7C 2H TC 4C 9S AH", Rank.Pair)>]
 [<InlineData("3D 5S 2H QD TD 6S KH 9H AD QH", Rank.HighCard)>]
 let ``Should calculate best discard result properly`` (input:string) (expected:Rank) : unit =
-    let got = input |> Parse.input ||> bestRank
+    let got = input |> parse ||> bestRank
     Assert.Equal(expected, snd got)

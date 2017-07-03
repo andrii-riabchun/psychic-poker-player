@@ -9,7 +9,6 @@
     <Compile Include="Utils.fs" />
     <Compile Include="Cards.fs" />
     <Compile Include="Advising.fs" />
-    <Compile Include="Convertion.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
