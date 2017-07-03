@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer", "PsychicPokerPlayer\PsychicPokerPlayer.fsproj", "{1E8AE785-D9C2-498E-A6B9-54166E80676D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer", "src\PsychicPokerPlayer.fsproj", "{1E8AE785-D9C2-498E-A6B9-54166E80676D}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer.Tests", "PsychicPokerPlayer.Tests\PsychicPokerPlayer.Tests.fsproj", "{54A6805C-3C2B-4BEA-98D2-925B54342D58}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PsychicPokerPlayer.Tests", "tests\PsychicPokerPlayer.Tests.fsproj", "{54A6805C-3C2B-4BEA-98D2-925B54342D58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

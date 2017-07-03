@@ -15,7 +15,7 @@
         },
         {
             "taskName": "test",
-            "args": [ "./PsychicPokerPlayer.Tests/PsychicPokerPlayer.Tests.fsproj", "--no-build"],
+            "args": [ "./tests/PsychicPokerPlayer.Tests.fsproj"],
             "isTestCommand": true,
             "showOutput": "silent",
             "problemMatcher": "$msCompile"
